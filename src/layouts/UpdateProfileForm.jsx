@@ -44,16 +44,12 @@ const UpdateProfileForm = ({ toggleUpdateProfileForm }) => {
     toggleUpdateProfileForm();
   };
 
-  // when form is opened, status must do 'idle' to prevent any side effect
-  useEffect(() => {
-    dispatch(resetUpdateStatus());
-  }, [dispatch]);
-
   useEffect(() => {
     if (profileUpdateStatus === 'succeeded') {
+      dispatch(resetUpdateStatus()); // allows form reopens immediately after
       toggleUpdateProfileForm();
     }
-  }, [profileUpdateStatus, toggleUpdateProfileForm]);
+  }, [dispatch, profileUpdateStatus, toggleUpdateProfileForm]);
 
   return (
     <>
