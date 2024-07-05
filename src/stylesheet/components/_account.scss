@@ -10,18 +10,15 @@
   box-sizing: border-box;
   margin-bottom: 2rem;
 
-  &__amount,
-  &__amount-description {
-    margin: 0;
-  }
-
   &__title {
     margin: 0;
     padding: 0;
   }
 
   &__content-wrapper {
+    @include flex-col;
     width: 100%;
+    gap: 10px;
     flex: 1;
   }
 
