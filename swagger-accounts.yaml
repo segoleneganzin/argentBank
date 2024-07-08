@@ -80,8 +80,8 @@ paths:
         - Bearer: []
       tags:
         - Transaction Module
-      summary: Get all user's transactions
-      description: Returns all user's transactions into an array
+      summary: Get all user's transactions for defined month
+      description: Returns all user's transactions of defined month group by accountId
       parameters:
         - in: header
           name: Authorization
@@ -92,6 +92,12 @@ paths:
           name: userId
           description: ID of user
           required: true
+          type: string
+        - in: query
+          name: month
+          description: Month to filter
+          format: YYYY-MM
+          required: false
           type: string
 
       responses:
@@ -401,7 +407,15 @@ definitions:
       body:
         type: array
         items:
-          $ref: '#/definitions/Transaction'
+          type: object
+          properties:
+            accountId:
+              type: string
+              description: ID of account
+            transactions:
+              type: array
+              items:
+                $ref: '#/definitions/Transaction'
 
   ApiAccountResponse:
     type: object
