@@ -322,12 +322,12 @@ definitions:
   Account:
     type: object
     properties:
+      id:
+        type: string
+        description: Id of account
       userId:
         type: string
         description: Id of the user owner account
-      accountId:
-        type: string
-        description: Id of account
       title:
         type: string
         description: Title of the account
@@ -341,7 +341,7 @@ definitions:
   Transaction:
     type: object
     properties:
-      transactionId:
+      id:
         type: string
         description: Id of transaction
       userId:
@@ -427,12 +427,12 @@ definitions:
       body:
         type: object
         properties:
+          id:
+            type: string
+            description: Id of account
           userId:
             type: string
             description: Id of the user owner account
-          accountId:
-            type: string
-            description: Id of account
           title:
             type: string
             description: Title of the account
@@ -454,7 +454,7 @@ definitions:
       body:
         type: object
         properties:
-          transactionId:
+          id:
             type: string
             description: Id of transaction
           userId:
@@ -494,10 +494,10 @@ definitions:
       body:
         type: object
         properties:
-          categoryId:
+          id:
             type: string
             description: Id of the transaction category
-          categoryTitle:
+          title:
             type: string
             description: Title of the transaction category
 
@@ -513,9 +513,9 @@ definitions:
         items:
           type: object
           properties:
-            categoryId:
+            id:
               type: string
               description: Id of the transaction category
-            categoryTitle:
+            title:
               type: string
               description: Title of the transaction category
