@@ -94,7 +94,7 @@ paths:
           required: true
           type: string
         - in: query
-          name: month
+          name: yearMonth
           description: Month to filter
           format: YYYY-MM
           required: false
@@ -344,9 +344,6 @@ definitions:
       id:
         type: string
         description: Id of transaction
-      userId:
-        type: string
-        description: Referrer user id
       accountId:
         type: string
         description: Referrer account id
@@ -407,15 +404,9 @@ definitions:
       body:
         type: array
         items:
-          type: object
-          properties:
-            accountId:
-              type: string
-              description: ID of account
-            transactions:
-              type: array
-              items:
-                $ref: '#/definitions/Transaction'
+          type: array
+          items:
+            $ref: '#/definitions/Transaction'
 
   ApiAccountResponse:
     type: object
@@ -457,9 +448,6 @@ definitions:
           id:
             type: string
             description: Id of transaction
-          userId:
-            type: string
-            description: Referrer user id
           accountId:
             type: string
             description: Referrer account id
