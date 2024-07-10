@@ -32,7 +32,7 @@ paths:
         '200':
           description: User accounts retrieved successfully
           schema:
-            $ref: '#/definitions/ApiAccountsResponse'
+            $ref: '#/definitions/AccountsResponse'
         '400':
           description: Invalid Id supplied
         '401':
@@ -64,7 +64,7 @@ paths:
         '200':
           description: User account retrieved successfully
           schema:
-            $ref: '#/definitions/ApiAccountResponse'
+            $ref: '#/definitions/AccountResponse'
         '400':
           description: Invalid Id supplied
         '401':
@@ -95,7 +95,7 @@ paths:
           type: string
         - in: query
           name: yearMonth
-          description: Month to filter
+          description: Month to filter transactions
           format: YYYY-MM
           required: false
           type: string
@@ -104,7 +104,7 @@ paths:
         '200':
           description: User account transactions retrieved successfully
           schema:
-            $ref: '#/definitions/ApiTransactionsResponse'
+            $ref: '#/definitions/TransactionsResponse'
         '400':
           description: Invalid Id supplied
         '401':
@@ -137,7 +137,7 @@ paths:
         '200':
           description: User transaction retrieved successfully
           schema:
-            $ref: '#/definitions/ApiTransactionResponse'
+            $ref: '#/definitions/TransactionResponse'
         '400':
           description: Invalid Id supplied
         '401':
@@ -171,12 +171,12 @@ paths:
           description: update transaction category
           required: true
           schema:
-            $ref: '#/definitions/APICategoryTransaction'
+            $ref: '#/definitions/ApiTransactionCategory'
       responses:
         '200':
           description: User transaction category updated successfully
           schema:
-            $ref: '#/definitions/ApiTransactionResponse'
+            $ref: '#/definitions/TransactionResponse'
         '400':
           description: Invalid Fields
         '401':
@@ -185,41 +185,6 @@ paths:
           description: Internal Server Error
 
   /transaction/{id}/notes:
-    # post:
-    #   security:
-    #     - Bearer: []
-    #   tags:
-    #     - Transaction Module
-    #   summary: Create notes for a transaction
-    #   description: Returns user's transaction
-    #   parameters:
-    #     - in: header
-    #       name: Authorization
-    #       description: Attach Bearer JWT token
-    #       required: true
-    #       type: string
-    #     - name: id
-    #       in: path
-    #       description: ID of transaction
-    #       required: true
-    #       type: string
-    #     - in: body
-    #       name: body
-    #       description: Add transaction notes
-    #       required: true
-    #       schema:
-    #         $ref: '#/definitions/APINotesTransaction'
-    #   responses:
-    #     '201':
-    #       description: User transaction notes created successfully
-    #       schema:
-    #         $ref: '#/definitions/ApiTransactionResponse'
-    #     '400':
-    #       description: Invalid Fields
-    #     '401':
-    #       description: Unauthorized
-    #     '500':
-    #       description: Internal Server Error
     put:
       security:
         - Bearer: []
@@ -243,12 +208,12 @@ paths:
           description: Update transaction notes
           required: true
           schema:
-            $ref: '#/definitions/APINotesTransaction'
+            $ref: '#/definitions/ApiTransactionNotes'
       responses:
         '200':
           description: User account transaction notes updated successfully
           schema:
-            $ref: '#/definitions/ApiTransactionResponse'
+            $ref: '#/definitions/TransactionResponse'
         '400':
           description: Invalid Fields
         '401':
@@ -274,7 +239,7 @@ paths:
         '200':
           description: Transaction categories retrieved successfully
           schema:
-            $ref: '#/definitions/ApiTransactionCategoriesResponse'
+            $ref: '#/definitions/TransactionCategoriesResponse'
         '401':
           description: Unauthorized
         '404':
@@ -304,7 +269,7 @@ paths:
         '200':
           description: Transaction category retrieved successfully
           schema:
-            $ref: '#/definitions/ApiTransactionCategoryResponse'
+            $ref: '#/definitions/TransactionCategoryResponse'
         '401':
           description: Unauthorized
         '404':
@@ -338,6 +303,46 @@ definitions:
       description:
         type: string
         description: Description of the account balance
+
+  AccountsResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        items:
+          $ref: '#/definitions/Account'
+
+  AccountResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Id of account
+          userId:
+            type: string
+            description: Id of the user owner account
+          title:
+            type: string
+            description: Title of the account
+          amount:
+            type: number
+            format: float
+            description: Amount in the account
+          description:
+            type: string
+            description: Description of the account balance
+
   Transaction:
     type: object
     properties:
@@ -368,21 +373,21 @@ definitions:
         type: string
         description: notes for transaction
 
-  APICategoryTransaction:
+  ApiTransactionCategory:
     type: object
     properties:
       categoryId:
         type: string
         description: Id of the transaction category
 
-  APINotesTransaction:
+  ApiTransactionNotes:
     type: object
     properties:
-      note:
+      notes:
         type: string
         description: Notes about the transaction
 
-  ApiAccountsResponse:
+  TransactionsResponse:
     type: object
     properties:
       status:
@@ -392,50 +397,9 @@ definitions:
       body:
         type: array
         items:
-          $ref: '#/definitions/Account'
+          $ref: '#/definitions/Transaction'
 
-  ApiTransactionsResponse:
-    type: object
-    properties:
-      status:
-        type: integer
-      message:
-        type: string
-      body:
-        type: array
-        items:
-          type: array
-          items:
-            $ref: '#/definitions/Transaction'
-
-  ApiAccountResponse:
-    type: object
-    properties:
-      status:
-        type: integer
-      message:
-        type: string
-      body:
-        type: object
-        properties:
-          id:
-            type: string
-            description: Id of account
-          userId:
-            type: string
-            description: Id of the user owner account
-          title:
-            type: string
-            description: Title of the account
-          amount:
-            type: number
-            format: float
-            description: Amount in the account
-          description:
-            type: string
-            description: Description of the account balance
-
-  ApiTransactionResponse:
+  TransactionResponse:
     type: object
     properties:
       status:
@@ -472,7 +436,29 @@ definitions:
             type: string
             description: notes for transaction
 
-  ApiTransactionCategoryResponse:
+  TransactionCategory:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of transaction category
+      title:
+        type: string
+        description: Title of transaction category
+
+  TransactionCategoriesResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        items:
+          $ref: '#/definitions/TransactionCategory'
+
+  TransactionCategoryResponse:
     type: object
     properties:
       status:
@@ -488,22 +474,3 @@ definitions:
           title:
             type: string
             description: Title of the transaction category
-
-  ApiTransactionCategoriesResponse:
-    type: object
-    properties:
-      status:
-        type: integer
-      message:
-        type: string
-      body:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Id of the transaction category
-            title:
-              type: string
-              description: Title of the transaction category
