@@ -37,7 +37,6 @@ const UpdateProfileForm = ({ toggleUpdateProfileForm }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(updateProfileAsync({ token: login.token, firstName, lastName }));
-    // dispatch(updateProfileAsync({ firstName, lastName })); // test error
   };
 
   const handleCancel = () => {

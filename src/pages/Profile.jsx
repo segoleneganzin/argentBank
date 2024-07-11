@@ -22,8 +22,6 @@ const Profile = () => {
   useEffect(() => {
     if (login && login.token) {
       dispatch(postProfileAsync(login.token));
-      // Uncomment below line for testing error state:
-      // dispatch(postProfileAsync(12345));
     }
   }, [login, dispatch]);
 
@@ -31,8 +29,6 @@ const Profile = () => {
   useEffect(() => {
     if (login && profile) {
       dispatch(fetchAccountsAsync(profile.id));
-      // Uncomment below line for testing error state:
-      // dispatch(fetchAccountsAsync(1234));
     }
   }, [login, profile, dispatch]);
 

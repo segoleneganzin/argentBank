@@ -11,10 +11,7 @@ import PropTypes from 'prop-types';
  */
 const Account = ({ account }) => {
   const { title, amount, description } = account;
-  // for phase 2 : we may create a function 'openTransactions' with accountId as param
-  // this function will be set to the button
-  // this function could call an async function of slicer.
-  // the endpoint would look something like this : /accounts/{idAccount}/transactions/{currentMonth}
+
   return (
     <section className='account'>
       <div className='account__content-wrapper'>
