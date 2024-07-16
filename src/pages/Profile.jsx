@@ -5,7 +5,7 @@ import Accounts from '../layouts/Accounts';
 import ProfileHeader from '../layouts/ProfileHeader';
 import { selectLogin } from '../features/loginSlice';
 import { postProfileAsync, selectProfile } from '../features/profileSlice';
-import { fetchAccountsAsync } from '../features/accountsSlice';
+import { getAccountsAsync } from '../features/accountsSlice';
 
 /**
  * A React functional component that renders the user profile page.
@@ -28,7 +28,7 @@ const Profile = () => {
   // Effect to fetch user accounts data when profile data changes
   useEffect(() => {
     if (login && profile) {
-      dispatch(fetchAccountsAsync(profile.id));
+      dispatch(getAccountsAsync(profile.id));
     }
   }, [login, profile, dispatch]);
 

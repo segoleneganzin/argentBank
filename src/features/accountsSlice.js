@@ -5,9 +5,9 @@ import {
   handleAsyncActions,
 } from '../utils/slicerFunctions';
 
-const GET_ACCOUNTS = 'accounts/fetchAccounts';
+const GET_ACCOUNTS = 'accounts/getAccounts';
 
-export const fetchAccountsAsync = createThunkAction(
+export const getAccountsAsync = createThunkAction(
   GET_ACCOUNTS,
   getUserAccounts
 );
@@ -31,7 +31,7 @@ export const accountsSlice = createSlice({
   },
   extraReducers: (builder) => {
     // Extra reducers to handle async actions (getUserAccounts)
-    handleAsyncActions(builder, fetchAccountsAsync, 'accounts', 'status');
+    handleAsyncActions(builder, getAccountsAsync, 'accounts', 'status');
   },
   selectors: {
     selectAccounts: (state) => state.accounts,
