@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUserAccounts } from '../services/accountsAPI';
+import { getUserAccounts } from '../services/accountsAPI';
 import {
   createThunkAction,
   handleAsyncActions,
@@ -9,14 +9,14 @@ const GET_ACCOUNTS = 'accounts/fetchAccounts';
 
 export const fetchAccountsAsync = createThunkAction(
   GET_ACCOUNTS,
-  fetchUserAccounts
+  getUserAccounts
 );
 
 // Redux slice for accounts state management
 export const accountsSlice = createSlice({
   name: 'accounts',
   initialState: {
-    accounts: JSON.parse(sessionStorage.getItem('accounst')) || null,
+    accounts: JSON.parse(sessionStorage.getItem('accounts')) || [],
     status: 'idle',
     error: null,
   },
@@ -30,7 +30,7 @@ export const accountsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Extra reducers to handle async actions (fetchUserAccounts)
+    // Extra reducers to handle async actions (getUserAccounts)
     handleAsyncActions(builder, fetchAccountsAsync, 'accounts', 'status');
   },
   selectors: {

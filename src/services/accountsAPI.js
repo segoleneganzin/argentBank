@@ -6,7 +6,7 @@ import axios from 'axios';
  * @returns {Promise<Object>} - Promise resolving to an array of user accounts
  * @throws {Error} - Throws an error if accounts data is not found or if user accounts are not found
  */
-export const fetchUserAccounts = async (userId) => {
+export const getUserAccounts = async (userId) => {
   try {
     const res = await axios.get(window.location.origin + '/accounts.json');
     const datas = res.data;

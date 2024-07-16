@@ -9,6 +9,35 @@ basePath: /api/v2
 schemes:
   - http
 paths:
+  /accounts/create:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Account Module
+      summary: create an account
+      description: create an account
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: account datas
+          required: true
+          schema:
+            $ref: '#/definitions/PostAccount'
+      responses:
+        '200':
+          description: Resource created successfully
+          schema:
+            $ref: '#/definitions/AccountResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
   /accounts/{userId}:
     get:
       security:
@@ -41,47 +70,44 @@ paths:
           description: Accounts not found
         '500':
           description: Internal Server Error
-  /account/{id}:
-    get:
+
+  /transactions/create:
+    post:
       security:
         - Bearer: []
       tags:
-        - Account Module
-      summary: Get one user's accounts
-      description: Returns one user's accounts
+        - Transaction Module
+      summary: create a transaction
+      description: create a transaction
       parameters:
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
           required: true
           type: string
-        - in: path
-          name: id
-          description: ID of account
+        - in: body
+          name: body
+          description: transaction datas
           required: true
-          type: string
+          schema:
+            $ref: '#/definitions/PostTransaction'
       responses:
         '200':
-          description: User account retrieved successfully
+          description: Resource created successfully
           schema:
-            $ref: '#/definitions/AccountResponse'
-        '400':
-          description: Invalid Id supplied
+            $ref: '#/definitions/TransactionResponse'
         '401':
           description: Unauthorized
-        '404':
-          description: Account not found
         '500':
           description: Internal Server Error
-
-  /transactions/{userId}:
+  /transactions/{accountId}:
     get:
       security:
         - Bearer: []
       tags:
         - Transaction Module
-      summary: Get all user's transactions for defined month
-      description: Returns all user's transactions of defined month group by accountId
+      summary: Get all user's transactions of an account for defined month
+      description: Returns all user's transactions of an account from defined month
       parameters:
         - in: header
           name: Authorization
@@ -89,8 +115,8 @@ paths:
           required: true
           type: string
         - in: path
-          name: userId
-          description: ID of user
+          name: accountId
+          description: ID of account
           required: true
           type: string
         - in: query
@@ -111,39 +137,6 @@ paths:
           description: Unauthorized
         '404':
           description: transactions not found
-        '500':
-          description: Internal Server Error
-
-  /transaction/{id}:
-    get:
-      security:
-        - Bearer: []
-      tags:
-        - Transaction Module
-      summary: Get one user's transaction
-      description: Returns one user's transaction
-      parameters:
-        - in: header
-          name: Authorization
-          description: Attach Bearer JWT token
-          required: true
-          type: string
-        - name: id
-          in: path
-          description: ID of transaction
-          required: true
-          type: string
-      responses:
-        '200':
-          description: User transaction retrieved successfully
-          schema:
-            $ref: '#/definitions/TransactionResponse'
-        '400':
-          description: Invalid Id supplied
-        '401':
-          description: Unauthorized
-        '404':
-          description: transaction not found
         '500':
           description: Internal Server Error
 
@@ -221,6 +214,35 @@ paths:
         '500':
           description: Internal Server Error
 
+  /transaction-categories/create:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Category Module
+      summary: create a transaction category
+      description: create a transaction category
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: transaction category title
+          required: true
+          schema:
+            $ref: '#/definitions/PostTransactionCategory'
+      responses:
+        '200':
+          description: Resource created successfully
+          schema:
+            $ref: '#/definitions/TransactionCategoryResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
   /transaction-categories:
     get:
       security:
@@ -287,7 +309,7 @@ definitions:
   Account:
     type: object
     properties:
-      id:
+      _id:
         type: string
         description: Id of account
       userId:
@@ -303,7 +325,22 @@ definitions:
       description:
         type: string
         description: Description of the account balance
-
+  PostAccount:
+    type: object
+    properties:
+      userId:
+        type: string
+        description: Id of the user owner account
+      title:
+        type: string
+        description: Title of the account
+      amount:
+        type: number
+        format: float
+        description: Amount in the account
+      description:
+        type: string
+        description: Description of the account balance
   AccountsResponse:
     type: object
     properties:
@@ -326,7 +363,7 @@ definitions:
       body:
         type: object
         properties:
-          id:
+          _id:
             type: string
             description: Id of account
           userId:
@@ -346,7 +383,7 @@ definitions:
   Transaction:
     type: object
     properties:
-      id:
+      _id:
         type: string
         description: Id of transaction
       accountId:
@@ -373,19 +410,32 @@ definitions:
         type: string
         description: notes for transaction
 
-  ApiTransactionCategory:
+  PostTransaction:
     type: object
     properties:
+      accountId:
+        type: string
+        description: Referrer account id
+      date:
+        type: string
+        format: date
+        description: Date of transaction
+      description:
+        type: string
+        description: Description of the transaction
+      amount:
+        type: number
+        format: float
+        description: Amount of the transaction
+      type:
+        type: string
+        description: Type of the transaction
       categoryId:
         type: string
-        description: Id of the transaction category
-
-  ApiTransactionNotes:
-    type: object
-    properties:
+        description: ID of transaction category
       notes:
         type: string
-        description: Notes about the transaction
+        description: notes for transaction
 
   TransactionsResponse:
     type: object
@@ -409,7 +459,7 @@ definitions:
       body:
         type: object
         properties:
-          id:
+          _id:
             type: string
             description: Id of transaction
           accountId:
@@ -436,12 +486,33 @@ definitions:
             type: string
             description: notes for transaction
 
+  ApiTransactionCategory:
+    type: object
+    properties:
+      categoryId:
+        type: string
+        description: Id of the transaction category
+
+  ApiTransactionNotes:
+    type: object
+    properties:
+      notes:
+        type: string
+        description: Notes about the transaction
+
   TransactionCategory:
     type: object
     properties:
-      id:
+      _id:
         type: string
         description: Id of transaction category
+      title:
+        type: string
+        description: Title of transaction category
+
+  PostTransactionCategory:
+    type: object
+    properties:
       title:
         type: string
         description: Title of transaction category
@@ -468,7 +539,7 @@ definitions:
       body:
         type: object
         properties:
-          id:
+          _id:
             type: string
             description: Id of the transaction category
           title:
