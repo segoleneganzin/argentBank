@@ -23,7 +23,7 @@ export const accountsSlice = createSlice({
   reducers: {
     clearAccounts: (state) => {
       // clear accounts when logout
-      state.accounts = null;
+      state.accounts = [];
       state.status = 'idle';
       state.error = null;
       sessionStorage.removeItem('accounts');
