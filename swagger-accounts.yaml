@@ -140,7 +140,7 @@ paths:
       tags:
         - Transaction Module
       summary: Get all user's transactions of an account for defined month
-      description: Returns all user's transactions of an account from defined month
+      description: Returns all user's transactions of an account from defined month. If no month is defined, then the current month is taken into account.
       parameters:
         - in: header
           name: Authorization
