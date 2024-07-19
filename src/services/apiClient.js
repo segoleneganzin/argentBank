@@ -31,7 +31,8 @@ const callApi = async (method, url, data, token) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error(`Error calling ${method} ${url}:`, error);
+    const errorMessage = error.response?.data?.message || error.message;
+    throw new Error(errorMessage);
   }
 };
 

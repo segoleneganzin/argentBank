@@ -7,14 +7,10 @@ import callApi from './apiClient';
  * @throws {Error} - Throws an error if token is missing.
  */
 export const postProfile = async (token) => {
-  try {
-    if (!token) {
-      throw new Error('Invalid datas');
-    }
-    return await callApi('post', '/user/profile', {}, token);
-  } catch (error) {
-    throw new Error(error);
+  if (!token) {
+    throw new Error('Invalid datas');
   }
+  return await callApi('post', '/user/profile', {}, token);
 };
 
 /**
