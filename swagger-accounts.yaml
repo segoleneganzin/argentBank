@@ -9,7 +9,7 @@ basePath: /api/v2
 schemes:
   - http
 paths:
-  /account/create:
+  /account:
     post:
       security:
         - Bearer: []
@@ -39,7 +39,6 @@ paths:
         '500':
           description: Internal Server Error
 
-  /account/getAll/{userId}:
     get:
       security:
         - Bearer: []
@@ -53,25 +52,18 @@ paths:
           description: Attach Bearer JWT token
           required: true
           type: string
-        - in: path
-          name: userId
-          description: ID of user
-          required: true
-          type: string
       responses:
         '200':
           description: User accounts retrieved successfully
           schema:
             $ref: '#/definitions/AccountsResponse'
-        '400':
-          description: Invalid Id supplied
         '401':
           description: Unauthorized
         '404':
           description: Accounts not found
         '500':
           description: Internal Server Error
-  /account/getOne/{id}:
+  /account/{id}:
     get:
       security:
         - Bearer: []
@@ -104,7 +96,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /transaction/create:
+  /transaction:
     post:
       security:
         - Bearer: []
@@ -133,7 +125,6 @@ paths:
           description: Unauthorized
         '500':
           description: Internal Server Error
-  /transaction/getAll/{accountId}:
     get:
       security:
         - Bearer: []
@@ -145,11 +136,6 @@ paths:
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
-          required: true
-          type: string
-        - in: path
-          name: accountId
-          description: ID of account
           required: true
           type: string
         - in: query
@@ -164,8 +150,6 @@ paths:
           description: User account transactions retrieved successfully
           schema:
             $ref: '#/definitions/TransactionsResponse'
-        '400':
-          description: Invalid Id supplied
         '401':
           description: Unauthorized
         '404':
@@ -247,7 +231,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /transaction-category/create:
+  /transaction-category:
     post:
       security:
         - Bearer: []
@@ -276,7 +260,6 @@ paths:
           description: Unauthorized
         '500':
           description: Internal Server Error
-  /transaction-category/getAll:
     get:
       security:
         - Bearer: []
@@ -301,7 +284,7 @@ paths:
           description: categories not found
         '500':
           description: Internal Server Error
-  /transaction-category/getOne/{id}:
+  /transaction-category/{id}:
     get:
       security:
         - Bearer: []
