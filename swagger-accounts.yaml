@@ -139,6 +139,11 @@ paths:
           required: true
           type: string
         - in: query
+          name: accountId
+          description: AccountId to filter transactions
+          required: true
+          type: string
+        - in: query
           name: yearMonth
           description: Month to filter transactions
           format: YYYY-MM
